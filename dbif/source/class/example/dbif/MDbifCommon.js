@@ -81,7 +81,6 @@ qx.Mixin.define("example.dbif.MDbifCommon",
 
       // Get a shortcut to my email address
       me = (bAnonymous ? null : example.dbif.MDbifCommon.__whoami.email);
-java.lang.System.out.println("authorize: me=" + me);
 
       // If the user is an adminstrator, ...
       if (example.dbif.MDbifCommon.__whoami &&
