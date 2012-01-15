@@ -1,0 +1,105 @@
+{
+  "name"    : "example",
+
+  "include" :
+  [
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+    }
+  ],
+
+  "export" :
+  [
+    "api",
+    "api-data",
+    "build",
+    "clean",
+    "distclean",
+    "fix",
+    "info",
+    "inspector",
+    "lint",
+    "migration",
+    "pretty",
+    "profiling",
+    "source",
+    "source-all",
+    "source-hybrid",    
+    "simulation-build",
+    "simulation-run",
+    "test",
+    "test-source",
+    "translation"
+  ],
+  
+  "default-job" : "source-hybrid",
+
+  "let" :
+  {
+    "APPLICATION"  : "example",
+    "QOOXDOO_PATH" : "../../../aig/lib/qooxdoo",
+    "QXTHEME"      : "example.theme.Theme",
+    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
+    "LOCALES"      : [ "en" ],
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "ROOT"         : "."
+  },
+
+  // You only need to edit the remainder of this file, if you want to customize
+  // specific jobs, or add own job definitions.
+
+  "jobs" :
+  {
+    "libraries" : 
+    {
+      "library" :
+      [
+        {
+          "manifest" : "../../dbif/Manifest.json"
+        },
+        {
+          "manifest" : "../../lib/liberated/Manifest.json"
+        }
+      ]
+    },
+
+    "build" :
+    {
+      "=run" : [
+        "build-script",
+        "build-resources",
+        "build-files",
+        "build-backend"
+      ]
+    },
+
+    "build-backend" :
+    {
+      "shell" :
+      {
+        "command"   :
+        [
+          "rsync -av ./build/ ../../backend-appengine/war/",
+          "mkdir -p ../../backend-jettysqlite/build",
+          "rsync -av ./build/ ../../backend-jettysqlite/build/"
+        ]
+      }
+    }
+
+    // If you want to tweak a job setting, see the following sample where
+    // the "format" feature of the "build-script" job is overridden.
+    // To see a list of available jobs, invoke 'generate.py x'.
+	/*
+    ,"build-script" :
+    {
+      "compile-options" : 
+      {
+        "code" :
+        {
+          "format" : false
+        }
+      }
+    }
+    */
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "info" : 
+  {
+    "name" : "appengine",
+
+    "summary" : "Example of using the App Engine backend with LIBERATED",
+    "description" : "This is an App Engine backend template for a LIBERATED-based application.",
+    
+    "homepage" : "http://some.homepage.url/",
+
+    "license" : "SomeLicense",
+    "authors" : 
+    [
+      {
+        "name" : "Derrell Lipman (derrell)",
+        "email" : "derrell.lipman@unwireduniverse.com"
+      }
+    ],
+
+    "version" : "trunk",
+    "qooxdoo-versions": ["1.7"]
+  },
+  
+  "provides" : 
+  {
+    "namespace"   : "appengine",
+    "encoding"    : "utf-8",
+    "class"       : "source/class",
+    "resource"    : "source/resource",
+    "translation" : "source/translation",
+    "type"        : "application"
+  }
+}
+
