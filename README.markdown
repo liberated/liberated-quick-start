@@ -11,3 +11,6 @@ procedure calls for accessing them -- are in the "dbif" library. This library
 is included by the frontend code, for access by the simulated backend, and is
 included by each of the "real" backends, for use in App Engine or
 Jetty/SQLite.
+
+Complete instructions for downloading and using this quick-start can be found
+at https://github.com/liberated/liberated-quick-start/wiki.
