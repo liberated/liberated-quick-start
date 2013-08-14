@@ -3,6 +3,8 @@
     <application>example</application>
     <version>alpha01</version>
 
+    <threadsafe>false</threadsafe>
+
     <system-properties>
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
     </system-properties>
