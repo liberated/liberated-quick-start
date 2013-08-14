@@ -99,6 +99,9 @@ qx.Mixin.define("example.dbif.MDbifCommon",
       case "example.increment":
         return ! bAnonymous;    // Access is allowed if they're logged in
 
+      case "example.getCounters":
+        return true;            // Access is allowed even for anonymous users
+
       case "example.somePrivateMethod":
         return (me == "joe@blow.com");
 
