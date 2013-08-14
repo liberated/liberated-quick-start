@@ -23,9 +23,9 @@ qx.Class.define("example.dbif.ObjCounter",
     this.base(arguments, "counter", id);
   },
   
-  defer : function(clazz)
+  defer : function(statics)
   {
-    liberated.dbif.Entity.registerEntityType(clazz.classname, "counter");
+    liberated.dbif.Entity.registerEntityType(statics.classname, "counter");
 
     var databaseProperties =
       {
