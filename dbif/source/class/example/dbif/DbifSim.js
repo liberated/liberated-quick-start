@@ -24,7 +24,6 @@ qx.Class.define("example.dbif.DbifSim",
     
     // Prepare for remote procedure calls to
     this.__rpc = new liberated.sim.Rpc("/rpc");
-console.log("DbifSim: rpc=" + this.__rpc);
         
     // Save the logged-in user. The whoAmI property is in MDbifCommon.
     this.setWhoAmI(
