@@ -145,6 +145,12 @@ qx.Class.define("jettysqlite.Application",
       var             _this = this;
       var             server;
       var             handlers;
+      var             handlerList = [];
+      var             constraint;
+      var             constraintMapping;
+      var             securityHandler;
+      var             loginService;
+      var             authenticator;
       var             rpcHandler;
       var             resourceHandler;
 
@@ -173,20 +179,49 @@ qx.Class.define("jettysqlite.Application",
       // Create a Jetty server instance
       server = new Packages.org.eclipse.jetty.server.Server(3000);
 
+      
       //
-      // Static File Handler
+      // Security Handler
       //
+      constraint = new Packages.org.eclipse.jetty.util.security.Constraint();
+//      constraint.setName("FORM");
+//      constraint.setName("BASIC");
+      constraint.setName("auth");
+      constraint.setRoles(
+        jettysqlite.Application.toJArray(java.lang.String, 
+                                         [ "user", "admin" ]));
+      constraint.setAuthenticate(true);
+      
+      constraintMapping = 
+        new Packages.org.eclipse.jetty.security.ConstraintMapping();
+      constraintMapping.setPathSpec("/*");
+      constraintMapping.setConstraint(constraint);
+      
+      loginService =
+        new Packages.org.eclipse.jetty.security.HashLoginService(
+          "MyRealm", "src/test/resources/realm.properties");
+      loginService.putUser(
+        "derrell",
+        new Packages.org.eclipse.jetty.util.security.Password("password"),
+        jettysqlite.Application.toJArray(java.lang.String, [ "user" ]));
+      server.addBean(loginService);
+      securityHandler = 
+        new Packages.org.eclipse.jetty.security.ConstraintSecurityHandler();
+      server.setHandler(securityHandler);
+      securityHandler.setConstraintMappings(
+        jettysqlite.Application.toJArray(
+          Packages.org.eclipse.jetty.security.ConstraintMapping,
+          [ constraintMapping ]));
+      securityHandler.setAuthenticator(
+        new Packages.org.eclipse.jetty.security.authentication.BasicAuthenticator());
+      securityHandler.setLoginService(loginService);
+      securityHandler.setStrict(false);
 
-      // Create a resource handler to deal with static file requests
-      resourceHandler = 
-        new Packages.org.eclipse.jetty.server.handler.ResourceHandler();
 
-      // If a request on the root path is received, serve a default file.
-      resourceHandler.setWelcomeFiles(
-        jettysqlite.Application.toJArray(java.lang.String, [ "index.html" ]));
+      // We'll want to register this handler.
+      handlerList.push(securityHandler);
 
-      // Serve files from our build directory (for now)
-      resourceHandler.setResourceBase("./build");
+
 
       //
       // Remote Procedure Call handler
@@ -239,6 +274,33 @@ qx.Class.define("jettysqlite.Application",
           }
         });
 
+      // We'll want to register this handler.
+      handlerList.push(rpcHandler);
+
+
+
+      //
+      // Static File Handler
+      //
+
+      // Create a resource handler to deal with static file requests
+      resourceHandler = 
+        new Packages.org.eclipse.jetty.server.handler.ResourceHandler();
+
+      // If a request on the root path is received, serve a default file.
+      resourceHandler.setWelcomeFiles(
+        jettysqlite.Application.toJArray(java.lang.String, [ "index.html" ]));
+
+      // Serve files from our build directory (for now)
+      resourceHandler.setResourceBase("./build");
+
+      // We'll want to register this handler.
+      handlerList.push(resourceHandler);
+      
+      securityHandler.setHandler(resourceHandler);
+      
+
+
       //
       // We have multiple handlers, so we need a handler collection
       //
@@ -251,7 +313,7 @@ qx.Class.define("jettysqlite.Application",
       // handle the request, then the resource handler will be called.
       handlers.setHandlers(jettysqlite.Application.toJArray(
                              Packages.org.eclipse.jetty.server.Handler,
-                             [ rpcHandler, resourceHandler ]));
+                             handlerList));
 
       // Now we can set the handlers for our server
       server.setHandler(handlers);
