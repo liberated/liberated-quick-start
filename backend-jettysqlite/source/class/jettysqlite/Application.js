@@ -185,6 +185,7 @@ qx.Class.define("jettysqlite.Application",
       //
       // Enable SSL
       // See http://www.eclipse.org/jetty/documentation/current/embedded-examples.html#embedded-many-connectors
+      // or, with comments: http://git.eclipse.org/c/jetty/org.eclipse.jetty.project.git/tree/examples/embedded/src/main/java/org/eclipse/jetty/embedded/ManyConnectors.java
       //
       sslContextFactory = 
         new Packages.org.eclipse.jetty.util.ssl.SslContextFactory();
@@ -213,7 +214,7 @@ qx.Class.define("jettysqlite.Application",
           Packages.org.eclipse.jetty.server.Connector, [ https ]));
       
       //
-      // Security Handler
+      // Security Handler, for authentication
       // See http://www.eclipse.org/jetty/documentation/current/embedded-examples.html
       //
       constraint = new Packages.org.eclipse.jetty.util.security.Constraint();
