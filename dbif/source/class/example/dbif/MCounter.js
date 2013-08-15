@@ -93,12 +93,12 @@ qx.Mixin.define("example.dbif.MCounter",
     {
       var             ret;
       var             whoAmI = this.getWhoAmI();
-      var             email = String(whoAmI.email);
+      var             user = String(whoAmI.user);
 
       ret =
         {
           counters    : liberated.dbif.Entity.query("example.dbif.ObjCounter"),
-          user        : email
+          user        : user
         };
 
       return ret;

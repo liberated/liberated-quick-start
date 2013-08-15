@@ -28,7 +28,7 @@ qx.Class.define("example.dbif.DbifSim",
     // Save the logged-in user. The whoAmI property is in MDbifCommon.
     this.setWhoAmI(
       {
-        email             : "jarjar@binks.org",
+        user              : "jarjar@binks.org",
         userId            : "obnoxious",
         isAdmin           : true
       });

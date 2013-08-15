@@ -24,7 +24,7 @@ qx.Mixin.define("example.dbif.MDbifCommon",
   {
     /**
      * Information about the currently-logged-in user. The value is a map
-     * containing the fields: email, userId, and isAdmin.
+     * containing the fields: user, userId, and isAdmin.
      */
     whoAmI :
     {
@@ -79,8 +79,8 @@ qx.Mixin.define("example.dbif.MDbifCommon",
       // Are they logged in, or anonymous?
       bAnonymous = (example.dbif.MDbifCommon.__whoami === null);
 
-      // Get a shortcut to my email address
-      me = (bAnonymous ? null : example.dbif.MDbifCommon.__whoami.email);
+      // Get a shortcut to my user name
+      me = (bAnonymous ? null : example.dbif.MDbifCommon.__whoami.user);
 
       // If the user is an adminstrator, ...
       if (example.dbif.MDbifCommon.__whoami &&

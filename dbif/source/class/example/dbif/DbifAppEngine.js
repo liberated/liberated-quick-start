@@ -85,7 +85,7 @@ qx.Class.define("example.dbif.DbifAppEngine",
       {
         this.setWhoAmI(
           {
-            email             : "anonymous",
+            user              : "anonymous",
             userId            : "",
             isAdmin           : false
           });
@@ -103,7 +103,7 @@ qx.Class.define("example.dbif.DbifAppEngine",
       // Save the logged-in user. The whoAmI property is in MDbifCommon.
       this.setWhoAmI(
         {
-          email             : whoami,
+          user              : whoami,
           userId            : userId,
           isAdmin           : userService.isUserAdmin()
         });

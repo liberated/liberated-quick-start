@@ -82,7 +82,7 @@ qx.Class.define("example.dbif.DbifJettySqlite",
       {
         this.setWhoAmI(
           {
-            email             : "anonymous",
+            user              : "anonymous",
             userId            : "",
             isAdmin           : false
           });
@@ -92,7 +92,7 @@ qx.Class.define("example.dbif.DbifJettySqlite",
       // Specify who we are
       this.setWhoAmI(
         {
-          email             : user,
+          user              : user,
           userId            : "no name",
           isAdmin           : false
         });
