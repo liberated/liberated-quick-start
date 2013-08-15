@@ -144,6 +144,9 @@ qx.Class.define("jettysqlite.Application",
     {
       var             _this = this;
       var             server;
+      var             sslContextFactory;
+      var             httpsConfig;
+      var             https;
       var             handlers;
       var             handlerList = [];
       var             constraint;
@@ -177,8 +180,37 @@ qx.Class.define("jettysqlite.Application",
       }
 
       // Create a Jetty server instance
-      server = new Packages.org.eclipse.jetty.server.Server(3000);
+      server = new Packages.org.eclipse.jetty.server.Server();
+      
+      //
+      // Enable SSL
+      // See http://www.eclipse.org/jetty/documentation/current/embedded-examples.html#embedded-many-connectors
+      //
+      sslContextFactory = 
+        new Packages.org.eclipse.jetty.util.ssl.SslContextFactory();
+      sslContextFactory.setKeyStorePath("keystore");
+      sslContextFactory.setKeyStorePassword("liberated/jetty");
+      
+      httpsConfig = 
+        new Packages.org.eclipse.jetty.server.HttpConfiguration();
+      httpsConfig.setSecureScheme("https");
+      httpsConfig.setSecurePort(3000);
+      httpsConfig.setOutputBufferSize(32768);
+      httpsConfig.addCustomizer(
+        new Packages.org.eclipse.jetty.server.SecureRequestCustomizer());
 
+      https = new Packages.org.eclipse.jetty.server.ServerConnector(
+        server,
+        new Packages.org.eclipse.jetty.server.SslConnectionFactory(
+          sslContextFactory, "http/1.1"),
+        new Packages.org.eclipse.jetty.server.HttpConnectionFactory(
+          httpsConfig));
+      https.setPort(3000);
+      https.setIdleTimeout(500000);
+
+      server.setConnectors(
+        jettysqlite.Application.toJArray(
+          Packages.org.eclipse.jetty.server.Connector, [ https ]));
       
       //
       // Security Handler
