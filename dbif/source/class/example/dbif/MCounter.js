@@ -84,13 +84,24 @@ qx.Mixin.define("example.dbif.MCounter",
     /**
      * Get all of the counters and their values
      *
-     * @return {Array}
-     *   An array of entity data. Each entity contains the counter name and
-     *   its current count value.
+     * @return {Map}
+     *   The map contains two members: user (the currently-logged-in user) and
+     *   counters.  Counters is an array of entity data. Each entity contains
+     *   the counter name and its current count value.
      */
     getCounters : function()
     {
-      return liberated.dbif.Entity.query("example.dbif.ObjCounter");
+      var             ret;
+      var             whoAmI = this.getWhoAmI();
+      var             email = String(whoAmI.email);
+
+      ret =
+        {
+          counters    : liberated.dbif.Entity.query("example.dbif.ObjCounter"),
+          user        : email
+        };
+
+      return ret;
     }
   }
 });

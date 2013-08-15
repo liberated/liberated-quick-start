@@ -42,7 +42,7 @@ qx.Class.define("jettysqlite.Application",
       var             jsonInput;
 
       // Determine the logged-in user
-      dbif.identify();
+      dbif.identify(request);
 
       // Retrieve the JSON input from the POST request. First, get the input
       // stream (the POST data)
@@ -88,7 +88,7 @@ qx.Class.define("jettysqlite.Application",
       var             out;
       
       // Determine the logged-in user
-      dbif.identify();
+      dbif.identify(request);
 
       // Get the query string
       jsonInput = decodeURIComponent(request.getQueryString());
@@ -182,10 +182,9 @@ qx.Class.define("jettysqlite.Application",
       
       //
       // Security Handler
+      // See http://www.eclipse.org/jetty/documentation/current/embedded-examples.html
       //
       constraint = new Packages.org.eclipse.jetty.util.security.Constraint();
-//      constraint.setName("FORM");
-//      constraint.setName("BASIC");
       constraint.setName("auth");
       constraint.setRoles(
         jettysqlite.Application.toJArray(java.lang.String, 
@@ -199,9 +198,9 @@ qx.Class.define("jettysqlite.Application",
       
       loginService =
         new Packages.org.eclipse.jetty.security.HashLoginService(
-          "MyRealm", "src/test/resources/realm.properties");
+          "liberated", "realm.properties");
       loginService.putUser(
-        "derrell",
+        "user",
         new Packages.org.eclipse.jetty.util.security.Password("password"),
         jettysqlite.Application.toJArray(java.lang.String, [ "user" ]));
       server.addBean(loginService);

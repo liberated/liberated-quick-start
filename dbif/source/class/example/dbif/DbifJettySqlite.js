@@ -66,19 +66,35 @@ qx.Class.define("example.dbif.DbifJettySqlite",
 
     /*
      * Identify the current user. 
-     *
-     * KLUDGE ALERT!
-     *   We have no authentication methanism, so this function simply claims
-     *   us a user name and deems us to be an administator!
      */
-    identify : function()
+    identify : function(request)
     {
+      var             principal;
+      var             user;
+      var             bAdmin;
+
+      // Find out who is logged in
+      principal = request.getUserPrincipal();
+      user = principal.getName();
+      
+      // If no one is logged in...
+      if (! user)
+      {
+        this.setWhoAmI(
+          {
+            email             : "anonymous",
+            userId            : "",
+            isAdmin           : false
+          });
+        return;
+      }
+
       // Specify who we are
       this.setWhoAmI(
         {
-          email             : "jarjar@binks.org",
-          userId            : "Jar Jar",
-          isAdmin           : true
+          email             : user,
+          userId            : "no name",
+          isAdmin           : false
         });
     }
   },

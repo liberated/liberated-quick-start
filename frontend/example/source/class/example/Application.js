@@ -46,10 +46,14 @@ qx.Class.define("example.Application",
       this.__rpc.setUrl("/rpc");
       this.__rpc.setServiceName("example");
 
+      // Create the user name label
+      var userName = new qx.ui.basic.Label();
+      this.getRoot().add(userName, { left: 100, top: 50 });
+
       // Create a tabview
       var tabView = new qx.ui.tabview.TabView();
       tabView.setWidth(500);
-      this.getRoot().add(tabView, { left : 100, top : 50 });
+      this.getRoot().add(tabView, { left : 100, top : 100 });
 
       //
       // Create the tab page to view all counter values
@@ -104,7 +108,8 @@ qx.Class.define("example.Application",
               if (ex == null) 
               {
                 // Nope. Display the result.
-                tableModel.setDataAsMapArray(result);
+                userName.setValue(result.user);
+                tableModel.setDataAsMapArray(result.counters);
               } 
               else
               {
