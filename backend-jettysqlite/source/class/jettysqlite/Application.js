@@ -154,8 +154,10 @@ qx.Class.define("jettysqlite.Application",
       var             securityHandler;
       var             loginService;
       var             authenticator;
+      var             logoutHandler;
       var             rpcHandler;
       var             resourceHandler;
+      var             Jetty = Packages.org.eclipse.jetty;
 
       if (qx.core.Environment.get("runtime.name") == "rhino") 
       {
@@ -180,72 +182,67 @@ qx.Class.define("jettysqlite.Application",
       }
 
       // Create a Jetty server instance
-      server = new Packages.org.eclipse.jetty.server.Server();
+      server = new Jetty.server.Server();
       
+
       //
       // Enable SSL
       // See http://www.eclipse.org/jetty/documentation/current/embedded-examples.html#embedded-many-connectors
       // or, with comments: http://git.eclipse.org/c/jetty/org.eclipse.jetty.project.git/tree/examples/embedded/src/main/java/org/eclipse/jetty/embedded/ManyConnectors.java
       //
-      sslContextFactory = 
-        new Packages.org.eclipse.jetty.util.ssl.SslContextFactory();
+      sslContextFactory = new Jetty.util.ssl.SslContextFactory();
       sslContextFactory.setKeyStorePath("keystore");
       sslContextFactory.setKeyStorePassword("liberated/jetty");
       
-      httpsConfig = 
-        new Packages.org.eclipse.jetty.server.HttpConfiguration();
+      httpsConfig = new Jetty.server.HttpConfiguration();
       httpsConfig.setSecureScheme("https");
       httpsConfig.setSecurePort(3000);
       httpsConfig.setOutputBufferSize(32768);
-      httpsConfig.addCustomizer(
-        new Packages.org.eclipse.jetty.server.SecureRequestCustomizer());
+      httpsConfig.addCustomizer(new Jetty.server.SecureRequestCustomizer());
 
-      https = new Packages.org.eclipse.jetty.server.ServerConnector(
+      https = new Jetty.server.ServerConnector(
         server,
-        new Packages.org.eclipse.jetty.server.SslConnectionFactory(
-          sslContextFactory, "http/1.1"),
-        new Packages.org.eclipse.jetty.server.HttpConnectionFactory(
-          httpsConfig));
+        new Jetty.server.SslConnectionFactory(sslContextFactory, "http/1.1"),
+        new Jetty.server.HttpConnectionFactory(httpsConfig));
       https.setPort(3000);
       https.setIdleTimeout(500000);
 
       server.setConnectors(
-        jettysqlite.Application.toJArray(
-          Packages.org.eclipse.jetty.server.Connector, [ https ]));
+        jettysqlite.Application.toJArray(Jetty.server.Connector, [ https ]));
       
+
       //
       // Security Handler, for authentication
       // See http://www.eclipse.org/jetty/documentation/current/embedded-examples.html
       //
-      constraint = new Packages.org.eclipse.jetty.util.security.Constraint();
+      constraint = new Jetty.util.security.Constraint();
       constraint.setName("auth");
       constraint.setRoles(
         jettysqlite.Application.toJArray(java.lang.String, 
                                          [ "user", "admin" ]));
       constraint.setAuthenticate(true);
       
-      constraintMapping = 
-        new Packages.org.eclipse.jetty.security.ConstraintMapping();
+      constraintMapping = new Jetty.security.ConstraintMapping();
       constraintMapping.setPathSpec("/*");
       constraintMapping.setConstraint(constraint);
       
-      loginService =
-        new Packages.org.eclipse.jetty.security.HashLoginService(
-          "liberated", "realm.properties");
+      loginService = 
+        new Jetty.security.HashLoginService("liberated", "realm.properties");
       loginService.putUser(
         "user",
-        new Packages.org.eclipse.jetty.util.security.Password("password"),
+        new Jetty.util.security.Password("password"),
         jettysqlite.Application.toJArray(java.lang.String, [ "user" ]));
       server.addBean(loginService);
-      securityHandler = 
-        new Packages.org.eclipse.jetty.security.ConstraintSecurityHandler();
+      securityHandler = new Jetty.security.ConstraintSecurityHandler();
       server.setHandler(securityHandler);
       securityHandler.setConstraintMappings(
         jettysqlite.Application.toJArray(
-          Packages.org.eclipse.jetty.security.ConstraintMapping,
+          Jetty.security.ConstraintMapping,
           [ constraintMapping ]));
       securityHandler.setAuthenticator(
-        new Packages.org.eclipse.jetty.security.authentication.BasicAuthenticator());
+//        new Jetty.security.authentication.FormAuthenticator(
+//          "/login.html", "/login.html", false));
+        new Jetty.security.authentication.BasicAuthenticator());
       securityHandler.setLoginService(loginService);
       securityHandler.setStrict(false);
 
@@ -255,13 +252,57 @@ qx.Class.define("jettysqlite.Application",
 
 
 
+/*
+      //
+      // Logout handler
+      //
+
+      // Instantiate a new handler to log out
+      logoutHandler = new JavaAdapter(
+        Jetty.server.handler.AbstractHandler, 
+        {
+          handle: function(target, baseRequest, request, response) 
+          {
+            var             f;
+            var             bIsLogout;
+
+            // Is this a logout request?
+            bIsLogout =
+              target == "/logout" ||
+              (target.length >= 8 &&
+               (target.substring(0, 8) == "/logout?" ||
+                target.substring(0, 8) == "/logout/"));
+
+            if (! bIsLogout)
+            {
+              // Nope. Let someone else handle it.
+              return;
+            }
+
+            // Invalidate the session
+            request.getSession(false).invalidate();
+
+            // We've handled this request
+            baseRequest.setHandled(true);
+            
+            // Redirect them back to the home page
+            response.sendRedirect("/");
+          }
+        });
+
+      // We'll want to register this handler.
+      handlerList.push(logoutHandler);
+*/
+
+
+
       //
       // Remote Procedure Call handler
       //
 
       // Instantiate a new handler to handle RPCs
       rpcHandler = new JavaAdapter(
-        Packages.org.eclipse.jetty.server.handler.AbstractHandler, 
+        Jetty.server.handler.AbstractHandler, 
         {
           handle: function(target, baseRequest, request, response) 
           {
@@ -316,8 +357,7 @@ qx.Class.define("jettysqlite.Application",
       //
 
       // Create a resource handler to deal with static file requests
-      resourceHandler = 
-        new Packages.org.eclipse.jetty.server.handler.ResourceHandler();
+      resourceHandler = new Jetty.server.handler.ResourceHandler();
 
       // If a request on the root path is received, serve a default file.
       resourceHandler.setWelcomeFiles(
@@ -338,13 +378,12 @@ qx.Class.define("jettysqlite.Application",
       //
 
       // Instantiate a handler collection
-      handlers = 
-        new Packages.org.eclipse.jetty.server.handler.HandlerCollection();
+      handlers = new Jetty.server.handler.HandlerCollection();
 
       // Add the two handlers. The RPC handler comes first. If it can't
       // handle the request, then the resource handler will be called.
       handlers.setHandlers(jettysqlite.Application.toJArray(
-                             Packages.org.eclipse.jetty.server.Handler,
+                             Jetty.server.Handler,
                              handlerList));
 
       // Now we can set the handlers for our server
