@@ -50,6 +50,10 @@ qx.Class.define("example.Application",
       var userName = new qx.ui.basic.Label();
       this.getRoot().add(userName, { left: 100, top: 50 });
 
+      // Create a logout button
+      var logout = new qx.ui.form.Button("Logout");
+      this.getRoot().add(logout, { left : 180, top : 50 });
+
       // Create a tabview
       var tabView = new qx.ui.tabview.TabView();
       tabView.setWidth(500);
@@ -110,6 +114,16 @@ qx.Class.define("example.Application",
                 // Nope. Display the result.
                 userName.setValue(result.user);
                 tableModel.setDataAsMapArray(result.counters);
+                
+                // Now that we have the logout URL, make the logout button
+                // send us there.
+                logout.addListener(
+                  "execute",
+                  function(e)
+                  {
+                    location.href = result.logoutUrl;
+                  },
+                  this);
               } 
               else
               {

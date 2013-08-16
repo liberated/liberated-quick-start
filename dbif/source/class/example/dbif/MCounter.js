@@ -89,7 +89,7 @@ qx.Mixin.define("example.dbif.MCounter",
      *   counters.  Counters is an array of entity data. Each entity contains
      *   the counter name and its current count value.
      */
-    getCounters : function()
+    getCounters : function(error)
     {
       var             ret;
       var             whoAmI = this.getWhoAmI();
@@ -98,7 +98,8 @@ qx.Mixin.define("example.dbif.MCounter",
       ret =
         {
           counters    : liberated.dbif.Entity.query("example.dbif.ObjCounter"),
-          user        : user
+          user        : user,
+          logoutUrl   : "/logout"
         };
 
       return ret;
