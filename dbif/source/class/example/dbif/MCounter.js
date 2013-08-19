@@ -99,7 +99,7 @@ qx.Mixin.define("example.dbif.MCounter",
         {
           counters    : liberated.dbif.Entity.query("example.dbif.ObjCounter"),
           user        : user,
-          logoutUrl   : "/logout"
+          logoutUrl   : "/login"
         };
 
       return ret;

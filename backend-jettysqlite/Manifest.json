@@ -3,8 +3,8 @@
   {
     "name" : "jettysqlite",
 
-    "summary" : "Example of using the Jetty/SQLite backend with LIBERATED",
-    "description" : "This is a Jetty/SQLite backend template for a LIBERATED-based application.",
+    "summary" : "Example of using the App Engine backend with LIBERATED",
+    "description" : "This is an App Engine backend template for a LIBERATED-based application.",
     
     "homepage" : "http://some.homepage.url/",
 

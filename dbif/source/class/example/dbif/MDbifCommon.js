@@ -32,16 +32,6 @@ qx.Mixin.define("example.dbif.MDbifCommon",
       init     : null,
       check    : "Object",
       apply    : "_applyWhoAmI"
-    },
-    
-    /**
-     * The HttpRequest object, needed for logout in some environments
-     */
-    httpRequest :
-    {
-      nullable : true,
-      init     : null,
-      check    : "Object"
     }
   },
 

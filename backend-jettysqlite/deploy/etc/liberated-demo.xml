@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure_9_0.dtd">
+
+<!-- =============================================================== -->
+<!-- Configure the demos                                             -->
+<!-- =============================================================== -->
+<Configure id="Server" class="org.eclipse.jetty.server.Server">
+
+  <!-- ============================================================= -->
+  <!-- Add webapps.demo to deployment manager scans                  -->
+  <!-- ============================================================= -->
+  <Ref refid="DeploymentManager">
+    <Call id="webappprovider" name="addAppProvider">
+      <Arg>
+        <New class="org.eclipse.jetty.deploy.providers.WebAppProvider">
+          <Set name="monitoredDirName"><Property name="jetty.home" default="." />/webapps</Set>
+          <Set name="defaultsDescriptor"><Property name="jetty.home" default="." />/etc/webdefault.xml</Set>
+<!--
+          <Set name="extractWars">true</Set>
+-->
+          <Set name="scanInterval">1</Set>
+          <Set name="configurationManager">
+            <New class="org.eclipse.jetty.deploy.PropertiesConfigurationManager"/>
+          </Set>
+        </New>
+      </Arg>
+    </Call>
+  </Ref>
+
+
+  <!-- ============================================================= -->
+  <!-- Add rewrite rules                                             -->
+  <!-- ============================================================= -->
+  <Ref refid="Rewrite">
+      <!-- Add rule to protect against IE ssl bug -->
+      <Call name="addRule">
+        <Arg>
+          <New class="org.eclipse.jetty.rewrite.handler.MsieSslRule"/>
+        </Arg>
+      </Call>
+
+      <!-- protect favicon handling -->
+      <Call name="addRule">
+        <Arg>
+          <New class="org.eclipse.jetty.rewrite.handler.HeaderPatternRule">
+            <Set name="pattern">/favicon.ico</Set>
+            <Set name="name">Cache-Control</Set>
+            <Set name="value">Max-Age=3600,public</Set>
+            <Set name="terminating">true</Set>
+          </New>
+        </Arg>
+      </Call>
+
+      <!-- redirect from the welcome page to a specific page -->
+<!--
+      <Call name="addRule">
+        <Arg>
+          <New class="org.eclipse.jetty.rewrite.handler.RewritePatternRule">
+            <Set name="pattern">/</Set>
+            <Set name="replacement">/gui</Set>
+          </New>
+        </Arg>
+      </Call>
+-->
+  </Ref>
+</Configure>

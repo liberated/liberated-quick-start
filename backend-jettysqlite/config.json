@@ -34,6 +34,7 @@
   {
     "APPLICATION"  : "jettysqlite",
     "QOOXDOO_PATH" : "../lib/qooxdoo",
+    "BUILD_PATH"   : "./deploy/build",
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
 //    "OPTIMIZE"     : [],
@@ -99,7 +100,7 @@
         "paths" :
         {
           "app-root" : ".",
-          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/basic.loader.js"
+          "loader-template" : "jettysqlite.loader.js"
         },
         "uris" :
         {
@@ -144,6 +145,7 @@
       {
         "command"   :
         [
+          "make",
           "(cd ../frontend/example && ./generate.py build)"
         ]
       }

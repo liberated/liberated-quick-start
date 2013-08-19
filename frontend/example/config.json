@@ -80,8 +80,7 @@
         "command"   :
         [
           "rsync -av ./build/ ../../backend-appengine/war/",
-          "mkdir -p ../../backend-jettysqlite/build",
-          "rsync -av ./build/ ../../backend-jettysqlite/build/"
+          "rsync -av ./build/ ../../backend-jettysqlite/deploy/webapps/ROOT/"
         ]
       }
     }

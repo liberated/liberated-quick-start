@@ -73,12 +73,9 @@ qx.Class.define("example.dbif.DbifJettySqlite",
       var             user;
       var             bAdmin;
       
-      // Save the request object in case it's needed for any RPCs
-      this.setHttpRequest(request);
-
       // Find out who is logged in
-      principal = request.getUserPrincipal();
-      user = principal.getName();
+      request && (principal = request.getUserPrincipal());
+      principal && (user = principal.getName());
       
       // If no one is logged in...
       if (! user)
