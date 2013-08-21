@@ -13,11 +13,13 @@
 package startup;
 
 import java.io.IOException;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jetty.servlet.DefaultServlet;
 
-public class GuiServlet extends HttpServlet
+public class GuiServlet extends DefaultServlet
 {
     // The name of the GUI application script to run
     private String  SCRIPT = "script/example.js";
@@ -34,8 +36,18 @@ public class GuiServlet extends HttpServlet
      */
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response)
-        throws IOException
+        throws IOException, ServletException
     {
+java.lang.System.out.println("GuiServlet: reqeustURI=" + request.getRequestURI());
+        // We'll only handle root requests. Pass others on to the superclass
+        if (! "/".equals(request.getRequestURI()))
+        {
+java.lang.System.out.println("passing request to superclass");
+            super.doGet(request, response);
+            return;
+        }
+        
+java.lang.System.out.println("processing request locally");
         // If the user is logged in, get the requested page.
         if (request.getUserPrincipal() != null)
         {
