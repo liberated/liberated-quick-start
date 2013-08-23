@@ -56,7 +56,7 @@ public class GuiServlet extends HttpServlet
                 "          content=\"text/html; charset=utf-8\" />" +
                 "    <link type=\"image/ico\" " +
                 "          href=\"/favicon.ico\" rel=\"icon\" />" +
-                "    <title>App Inventor Gallery</title>" +
+                "    <title>LIBERTED example</title>" +
                 "    <script type=\"text/javascript\" " +
                 "            src=\"" + SCRIPT + "\">" +
                 "    </script>" +

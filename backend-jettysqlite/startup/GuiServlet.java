@@ -38,20 +38,16 @@ public class GuiServlet extends DefaultServlet
                       HttpServletResponse response)
         throws IOException, ServletException
     {
-java.lang.System.out.println("GuiServlet: reqeustURI=" + request.getRequestURI());
         // We'll only handle root requests. Pass others on to the superclass
         if (! "/".equals(request.getRequestURI()))
         {
-java.lang.System.out.println("passing request to superclass");
             super.doGet(request, response);
             return;
         }
         
-java.lang.System.out.println("processing request locally");
         // If the user is logged in, get the requested page.
         if (request.getUserPrincipal() != null)
         {
-java.lang.System.out.println("user principal: " + request.getUserPrincipal());
             response.getWriter().println(
                 "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" " +
                 "        \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">" +
@@ -62,7 +58,7 @@ java.lang.System.out.println("user principal: " + request.getUserPrincipal());
                 "          content=\"text/html; charset=utf-8\" />" +
                 "    <link type=\"image/ico\" " +
                 "          href=\"/favicon.ico\" rel=\"icon\" />" +
-                "    <title>App Inventor Gallery</title>" +
+                "    <title>LIBERTED example</title>" +
                 "    <script type=\"text/javascript\" " +
                 "            src=\"" + SCRIPT + "\">" +
                 "    </script>" +
