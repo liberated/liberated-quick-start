@@ -60,7 +60,12 @@ public class LoginServlet extends HttpServlet
         
         // Log them out first, then redirect to them to the login page
         request.logout();
-        session.invalidate();
+
+        if (session)
+        {
+            session.invalidate();
+        }
+
         response.sendRedirect("/auth.html");
     }
 }
