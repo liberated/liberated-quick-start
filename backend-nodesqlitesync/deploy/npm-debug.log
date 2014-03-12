@@ -1,0 +1,58 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'nodejs', '/usr/bin/npm', 'install', 'node-sqlite' ]
+2 info using npm@1.2.12
+3 info using node@v0.8.21
+4 verbose read json /home/derrell/ME/liberated-quick-start.git/backend-nodesqlitesync/deploy/package.json
+5 verbose read json /home/derrell/ME/liberated-quick-start.git/backend-nodesqlitesync/deploy/node_modules/express/package.json
+6 verbose read json /home/derrell/ME/liberated-quick-start.git/backend-nodesqlitesync/deploy/package.json
+7 verbose cache add [ 'node-sqlite', null ]
+8 verbose cache add name=undefined spec="node-sqlite" args=["node-sqlite",null]
+9 verbose parsed url { pathname: 'node-sqlite',
+9 verbose parsed url   path: 'node-sqlite',
+9 verbose parsed url   href: 'node-sqlite' }
+10 silly lockFile 531ac882-node-sqlite node-sqlite
+11 verbose lock node-sqlite /home/derrell/.npm/531ac882-node-sqlite.lock
+12 silly lockFile 531ac882-node-sqlite node-sqlite
+13 silly lockFile 531ac882-node-sqlite node-sqlite
+14 verbose addNamed [ 'node-sqlite', '' ]
+15 verbose addNamed [ null, '' ]
+16 silly lockFile bce1b998-node-sqlite node-sqlite@
+17 verbose lock node-sqlite@ /home/derrell/.npm/bce1b998-node-sqlite.lock
+18 silly addNameRange { name: 'node-sqlite', range: '', hasData: false }
+19 verbose url raw node-sqlite
+20 verbose url resolving [ 'https://registry.npmjs.org/', './node-sqlite' ]
+21 verbose url resolved https://registry.npmjs.org/node-sqlite
+22 info trying registry request attempt 1 at 15:11:24
+23 http GET https://registry.npmjs.org/node-sqlite
+24 http 404 https://registry.npmjs.org/node-sqlite
+25 silly registry.get cb [ 404,
+25 silly registry.get   { date: 'Tue, 11 Mar 2014 19:11:25 GMT',
+25 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B)',
+25 silly registry.get     'content-type': 'application/json',
+25 silly registry.get     'cache-control': 'max-age=0',
+25 silly registry.get     'content-length': '52',
+25 silly registry.get     'accept-ranges': 'bytes',
+25 silly registry.get     via: '1.1 varnish',
+25 silly registry.get     age: '0',
+25 silly registry.get     'x-served-by': 'cache-v41-ASH',
+25 silly registry.get     'x-cache': 'MISS',
+25 silly registry.get     'x-cache-hits': '0',
+25 silly registry.get     'x-timer': 'S1394565085.906505823,VS0,VE39',
+25 silly registry.get     'keep-alive': 'timeout=10, max=50',
+25 silly registry.get     connection: 'Keep-Alive' } ]
+26 silly lockFile bce1b998-node-sqlite node-sqlite@
+27 silly lockFile bce1b998-node-sqlite node-sqlite@
+28 error 404 'node-sqlite' is not in the npm registry.
+28 error 404 You should bug the author to publish it
+28 error 404
+28 error 404 Maybe try 'npm search sqlite'
+28 error 404
+28 error 404 Note that you can also install from a
+28 error 404 tarball, folder, or http url, or git url.
+29 error System Linux 3.2.0-26-generic
+30 error command "nodejs" "/usr/bin/npm" "install" "node-sqlite"
+31 error cwd /home/derrell/ME/liberated-quick-start.git/backend-nodesqlitesync/deploy
+32 error node -v v0.8.21
+33 error npm -v 1.2.12
+34 error code E404
+35 verbose exit [ 1, true ]
